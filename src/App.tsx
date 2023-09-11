@@ -1,28 +1,26 @@
-import React from 'react';
+import React, { useState } from "react";
 
 import { Navigate, Route, Routes } from "react-router-dom";
 
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+
+import { NavMenu } from "./components/navigation/NavMenu";
+import Box from "@mui/material/Box";
+import { appWrapper } from "./styles/styles";
+import { ContentArea } from "./components/ContentArea";
 
 function App() {
+  const [openSide, setOpenSide] = useState(false);
+
+  const handleSideToogle = () => {
+    setOpenSide(!openSide);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Box sx={appWrapper}>
+      <NavMenu handleSideToggle={handleSideToogle} />
+      <ContentArea open={openSide} />
+    </Box>
   );
 }
 
