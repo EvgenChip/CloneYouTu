@@ -4,6 +4,8 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from "react-redux";
+import { AppThemeProvider } from "./themes/ThemesProvider";
+import CssBaseline from "@mui/material/CssBaseline";
 
 
 const root = ReactDOM.createRoot(
@@ -11,8 +13,12 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   //@ts-ignore
-
-  <App />
+  <div>
+    <CssBaseline />
+    <AppThemeProvider>
+      <App />
+    </AppThemeProvider>
+  </div>
 );
 
 // If you want to start measuring performance in your app, pass a function
