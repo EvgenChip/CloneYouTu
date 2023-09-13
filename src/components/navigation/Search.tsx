@@ -5,7 +5,8 @@ import IconButton from "@mui/material/IconButton";
 import InputBase from "@mui/material/InputBase";
 import Paper from "@mui/material/Paper";
 import SearchIcon from "@mui/icons-material/Search";
-import { flexAlignCenter, searchBar } from "../../styles/styles";
+import { flexAlignCenter } from "../../styles/styles";
+import { searchBar } from "./style";
 
 export const Search = () => {
   return (

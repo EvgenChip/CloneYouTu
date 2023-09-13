@@ -6,15 +6,10 @@ import MenuIcon from "@mui/icons-material/Menu";
 import React, { FC } from "react";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import {
-  appBar,
-  flexAlignCenter,
-  hideOnMobile,
-  logoText,
-  toolbarWrapper,
-} from "../../styles/styles";
+import { flexAlignCenter, hideOnMobile } from "../../styles/styles";
 import { Search } from "./Search";
 import { UserProfile } from "../UserProfile";
+import { appBar, logoText, toolbarWrapper } from "./style";
 
 type NavMenuProps = { handleSideToggle: () => void };
 
