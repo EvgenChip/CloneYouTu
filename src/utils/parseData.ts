@@ -3,46 +3,27 @@ import { convertRawViews, parseVideoDuration, timesVideo } from "./index";
 import { YOUTUBE_API_URL } from "./constants";
 import { HomePageVideos } from "../Types";
 
-const API_KEY = process.env.REACT_APP_API_KEY;
 
-export const parseData = async (items: any[]) => {
+
+export const parseData = (
+  items: any[],
+  channelsData: any[],
+  videoIds: string[],
+  channelIds: string[],
+  videosData: any[]
+) => {
   try {
-    const videoIds: string[] = [];
-    const channelIds: string[] = [];
-    items.forEach(
-      (item: { snippet: { channelId: string }; id: { videoId: string } }) => {
-        channelIds.push(item.snippet.channelId);
-        videoIds.push(item.id.videoId);
-      }
-    );
+    const channelsMap: Record<string, string> = {};
 
-    const {
-      data: { items: channelsData },
-    } = await axios.get(
-      `${YOUTUBE_API_URL}/channels?part=snippet,contentDetails&id=${channelIds.join(
-        ","
-      )}&key=${API_KEY}`
-    );
-
-    const parsedChannelsData: { id: string; image: string }[] = [];
     channelsData.forEach(
       (channel: {
         id: string;
         snippet: { thumbnails: { default: { url: string } } };
-      }) =>
-        parsedChannelsData.push({
-          id: channel.id,
-          image: channel.snippet.thumbnails.default.url,
-        })
+      }) => {
+        channelsMap[channel.id] = channel.snippet.thumbnails.default.url;
+      }
     );
 
-    const {
-      data: { items: videosData },
-    } = await axios.get(
-      `${YOUTUBE_API_URL}/videos?part=contentDetails,statistics&id=${videoIds.join(
-        ","
-      )}&key=${API_KEY}`
-    );
     const parsedData: HomePageVideos[] = [];
     items.forEach(
       (
@@ -59,20 +40,19 @@ export const parseData = async (items: any[]) => {
         },
         index: number
       ) => {
-        const { image: channelImage } = parsedChannelsData.find(
-          (data) => data.id === item.snippet.channelId
-        )!;
+        const channelImage = channelsMap[item.snippet.channelId];
+
         if (channelImage)
           parsedData.push({
             videoId: item.id.videoId,
-            videoTitle: item.snippet.title,
-            videoDescription: item.snippet.description,
-            videoThumbnail: item.snippet.thumbnails.medium.url,
-            videoLink: `https://www.youtube.com/watch?v=${item.id.videoId}`,
-            videoDuration: parseVideoDuration(
+            title: item.snippet.title,
+            description: item.snippet.description,
+            thumbnail: item.snippet.thumbnails.medium.url,
+            link: `https://www.youtube.com/watch?v=${item.id.videoId}`,
+            duration: parseVideoDuration(
               videosData[index].contentDetails.duration
             ),
-            videoViews: convertRawViews(videosData[index].statistics.viewCount),
+            views: convertRawViews(videosData[index].statistics.viewCount),
             videoAge: timesVideo(new Date(item.snippet.publishedAt)),
             channelInfo: {
               id: item.snippet.channelId,
@@ -88,3 +68,6 @@ export const parseData = async (items: any[]) => {
     console.log(err);
   }
 };
+
+
+

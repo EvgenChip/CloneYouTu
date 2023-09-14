@@ -9,13 +9,12 @@ export interface InitialState {
 
 export interface HomePageVideos {
   videoId: string;
-  videoTitle: string;
-  videoDescription: string;
-  videoLink: string;
-
-  videoThumbnail: string;
-  videoDuration: string;
-  videoViews: string;
+  title: string;
+  description: string;
+  link: string;
+  thumbnail: string;
+  duration: string;
+  views: string;
   videoAge: string;
   channelInfo: {
     id: string;
@@ -26,11 +25,11 @@ export interface HomePageVideos {
 
 export interface CurrentPlaying {
   videoId: string;
-  videoTitle: string;
-  videoDescription: string;
-  videoViews: string;
-  videoLikes: string;
-  videoAge: string;
+  title: string;
+  description: string;
+  views: string;
+  likes: string;
+  age: string;
   channelInfo: {
     id: string;
     image: string;
@@ -41,10 +40,10 @@ export interface CurrentPlaying {
 
 export interface RecommendedVideos {
   videoId: string;
-  videoTitle: string;
-  videoThumbnail: string;
-  videoDuration: string;
-  videoViews: string;
+  title: string;
+  thumbnail: string;
+  duration: string;
+  views: string;
   videoAge: string;
   channelInfo: {
     id: string;

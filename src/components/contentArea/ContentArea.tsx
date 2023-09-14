@@ -5,7 +5,7 @@ import { FC, useEffect } from "react";
 import { CardList } from "../cardList/CardList";
 import { youtubeResponse } from "../../data/data";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { getHomePage } from "../../store/reducers/getHomePage";
+import { getHomePageVideo } from "../../store/reducers/getHomePageVideo";
 import { appContentWrapper } from "./styles";
 
 type ContentAreaProps = { open: boolean };
@@ -17,7 +17,7 @@ export const ContentArea: FC<ContentAreaProps> = ({ open }) => {
   console.log(response);
 
   useEffect(() => {
-    dispatch(getHomePage(false));
+    dispatch(getHomePageVideo(false));
   }, [dispatch]);
 
   return (
