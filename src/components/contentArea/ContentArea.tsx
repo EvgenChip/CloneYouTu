@@ -3,7 +3,6 @@ import { Box } from "@mui/material";
 import { SideList } from "../sideList/SideList";
 import { FC, useEffect } from "react";
 import { CardList } from "../cardList/CardList";
-import { youtubeResponse } from "../../data/data";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { getHomePageVideo } from "../../store/reducers/getHomePageVideo";
 import { appContentWrapper } from "./styles";
@@ -41,7 +40,7 @@ export const ContentArea: FC<ContentAreaProps> = ({ open }) => {
           overflowX: "hidden",
           width: `calc(100vw - ${sideOpen})`,
         }}>
-        <CardList items={youtubeResponse} />
+        <CardList items={response} />
       </Box>
     </Box>
   );

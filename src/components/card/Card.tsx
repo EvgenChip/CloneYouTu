@@ -19,6 +19,7 @@ type AppContentProps = {
   title: string;
   channelTitle: string;
   videoId: string;
+  channelImage: string;
 };
 
 export const AppCard: FC<AppContentProps> = ({
@@ -26,6 +27,7 @@ export const AppCard: FC<AppContentProps> = ({
   title,
   channelTitle,
   videoId,
+  channelImage,
 }) => {
   return (
     <Card sx={{ boxShadow: 0 }}>
@@ -36,10 +38,7 @@ export const AppCard: FC<AppContentProps> = ({
         <List sx={appCardList}>
           <ListItem>
             <ListItemAvatar>
-              <Avatar
-                alt="Channel avatar"
-                src={`https://i.pravatar.cc/150?img=1`}
-              />
+              <Avatar alt="Channel avatar" src={channelImage} />
             </ListItemAvatar>
             <Box sx={flexColumnCenter}>
               <Typography
