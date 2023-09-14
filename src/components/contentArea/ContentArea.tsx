@@ -1,14 +1,24 @@
 import { Box } from "@mui/material";
-import { appContentWrapper } from "../styles/styles";
-import { SideList } from "./SideList";
-import { FC } from "react";
-import { CardList } from "./CardList";
-import { youtubeResponse } from "../data/data";
+
+import { SideList } from "../sideList/SideList";
+import { FC, useEffect } from "react";
+import { CardList } from "../cardList/CardList";
+import { youtubeResponse } from "../../data/data";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { getHomePageVideo } from "../../store/reducers/getHomePageVideo";
+import { appContentWrapper } from "./styles";
 
 type ContentAreaProps = { open: boolean };
 
 export const ContentArea: FC<ContentAreaProps> = ({ open }) => {
   const sideOpen = open ? "70px" : "250px";
+  const dispatch = useAppDispatch();
+  const response = useAppSelector((state) => state.mainApp.videos);
+  console.log(response);
+
+  useEffect(() => {
+    dispatch(getHomePageVideo(false));
+  }, [dispatch]);
 
   return (
     <Box component="main" sx={appContentWrapper}>

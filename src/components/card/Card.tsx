@@ -7,11 +7,12 @@ import Link from "@mui/material/Link";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
-import { appCardList, flexColumnCenter } from "../styles/styles";
+import { flexColumnCenter } from "../../styles/styles";
 import { FC } from "react";
 import { AiFillCheckCircle } from "react-icons/ai";
 import { Typography } from "@mui/material";
-import { trimText } from "../data/data";
+import { trimText } from "../../data/data";
+import { appCardList } from "./styles";
 
 type AppContentProps = {
   url: string;

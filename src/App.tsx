@@ -7,7 +7,7 @@ import "./App.css";
 import { NavMenu } from "./components/navigation/NavMenu";
 import Box from "@mui/material/Box";
 import { appWrapper } from "./styles/styles";
-import { ContentArea } from "./components/ContentArea";
+import { ContentArea } from "./components/contentArea/ContentArea";
 
 function App() {
   const [openSide, setOpenSide] = useState(false);

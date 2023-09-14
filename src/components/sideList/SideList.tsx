@@ -6,9 +6,10 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
-import { sideListWrapper } from "../styles/styles";
-import { sideListItems } from "../data/data";
+
+import { sideListItems } from "../../data/data";
 import { Fragment } from "react";
+import { sideListWrapper } from "./styles";
 
 export const SideList = () => {
   return (

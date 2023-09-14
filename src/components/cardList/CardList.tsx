@@ -1,6 +1,5 @@
 import { Box, Grid } from "@mui/material";
-import { FC } from "react";
-import { AppCard } from "./Card";
+import { AppCard } from "../card/Card";
 
 export const CardList: any = ({ items }: any) => {
   return (
