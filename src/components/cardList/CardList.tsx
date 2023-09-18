@@ -7,6 +7,7 @@ export const CardList: any = ({ items }: any) => {
       <Grid container rowSpacing={1} columnSpacing={{ xs: 2, sm: 4 }}>
         {items.length &&
           items.map((item: any) => {
+            const duration = item.duration;
             const videoId = item.videoId;
             const thumbnails = item.thumbnail;
             const title = item.title;
@@ -19,6 +20,7 @@ export const CardList: any = ({ items }: any) => {
             return (
               <Grid key={key} item xs={12} sm={6} md={4} lg={3}>
                 <AppCard
+                  duration={duration}
                   url={thumbnails}
                   title={title}
                   channelTitle={channelTitle}

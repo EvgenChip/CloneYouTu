@@ -11,11 +11,11 @@ const instance = axios.create({
   baseURL: YOUTUBE_API_URL,
 });
 
-export const getHomePageVideo = createAsyncThunk(
-  "mainApp/GetHomePageVideo",
+export const getSearchPageVideos = createAsyncThunk(
+  "mainApp/GetSearchPageVideo",
   async (pageType: "startPage" | "nextPage", { getState }) => {
     const {
-      mainApp: { nextPageToken: nextPageTokenFromState, videos },
+      mainApp: { nextPageToken: nextPageTokenFromState, videos, searchTerm },
     } = getState() as RootState;
 
     const pageTypes = {
@@ -26,7 +26,7 @@ export const getHomePageVideo = createAsyncThunk(
     const {
       data: { items, nextPageToken },
     } = await axios.get(
-      `${YOUTUBE_API_URL}/search?maxResults=20&q="reactjs projects"&key=${API_KEY}&part=snippet&type=video&${pageTypes[pageType]}`
+      `${YOUTUBE_API_URL}/search?q=${searchTerm}&key=${API_KEY}&part=snippet&type=video&${pageTypes[pageType]}`
     );
 
     // const params = {

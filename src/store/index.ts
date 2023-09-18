@@ -1,7 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { InitialState } from "./../Types";
 import { configureStore } from "@reduxjs/toolkit";
 import { getHomePageVideo } from "./reducers/getHomePageVideo";
+import { getSearchPageVideos } from "./reducers/getSearchPageVideo";
 
 const initialState: InitialState = {
   videos: [],
@@ -15,9 +16,24 @@ const initialState: InitialState = {
 const MainAppSlice = createSlice({
   name: "mainApp",
   initialState,
-  reducers: {},
+  reducers: {
+    clearVideos: (state) => {
+      state.videos = [];
+      state.nextPageToken = null;
+    },
+    changeSearchTerm: (state, action: PayloadAction<string>) => {
+      state.searchTerm = action.payload;
+    },
+    clearSearchTerm: (state) => {
+      state.searchTerm = "";
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getHomePageVideo.fulfilled, (state, action) => {
+      state.videos = action.payload.parsedData;
+      state.nextPageToken = action.payload.nextPageToken;
+    });
+    builder.addCase(getSearchPageVideos.fulfilled, (state, action) => {
       state.videos = action.payload.parsedData;
       state.nextPageToken = action.payload.nextPageToken;
     });
@@ -29,5 +45,9 @@ export const store = configureStore({
     mainApp: MainAppSlice.reducer,
   },
 });
+
+export const { clearVideos, changeSearchTerm, clearSearchTerm } =
+  MainAppSlice.actions;
+
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

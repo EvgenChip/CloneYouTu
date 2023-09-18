@@ -20,6 +20,7 @@ type AppContentProps = {
   channelTitle: string;
   videoId: string;
   channelImage: string;
+  duration: string;
 };
 
 export const AppCard: FC<AppContentProps> = ({
@@ -28,9 +29,20 @@ export const AppCard: FC<AppContentProps> = ({
   channelTitle,
   videoId,
   channelImage,
+  duration,
 }) => {
   return (
-    <Card sx={{ boxShadow: 0 }}>
+    <Card sx={{ boxShadow: 0, position: "relative" }}>
+      <Box
+        sx={{
+          position: "absolute",
+          bgcolor: "black",
+          color: "white",
+          mt: 28,
+          ml: 43,
+        }}>
+        <Typography>{duration}</Typography>
+      </Box>
       <Link href={`https://www.youtube.com/watch?v=${videoId}`}>
         <CardMedia component="img" height="240" image={url} alt={title} />
       </Link>
