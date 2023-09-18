@@ -21,10 +21,11 @@ export const Search = () => {
   const searchTerm = useAppSelector((state) => state.mainApp.searchTerm);
 
   const handleSearch = () => {
-    location.pathname !== "/search"
-      ? navigate("/search")
-      : dispatch(getSearchPageVideos(false));
-
+    if (location.pathname !== "/search") {
+      navigate("/search");
+    } else {
+      dispatch(getSearchPageVideos(false));
+    }
   };
 
   return (
