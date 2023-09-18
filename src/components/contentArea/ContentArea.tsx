@@ -21,11 +21,7 @@ export const ContentArea: FC<ContentAreaProps> = ({ open }) => {
     dispatch(getHomePageVideo(false));
   }, [dispatch]);
 
-  useEffect(() => {
-    return () => {
-      dispatch(clearVideos());
-    };
-  }, [dispatch]);
+
 
   return (
     <Box component="main" sx={appContentWrapper}>
