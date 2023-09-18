@@ -21,9 +21,9 @@ export const Search = () => {
   const searchTerm = useAppSelector((state) => state.mainApp.searchTerm);
 
   const handleSearch = () => {
-    if (location.pathname !== "/search") navigate("/search");
-    else {
-      dispatch(clearVideos());
+    if (location.pathname !== "/search") {
+      navigate("/search");
+    } else {
       dispatch(getSearchPageVideos(false));
     }
   };

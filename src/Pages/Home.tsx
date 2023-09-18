@@ -15,16 +15,6 @@ export const Home = () => {
     setOpenSide(!openSide);
   };
 
-  useEffect(() => {
-    return () => {
-      dispatch(clearVideos());
-    };
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(getHomePageVideo(false));
-  }, [dispatch]);
-
   return (
     <Box sx={appWrapper}>
       <NavMenu handleSideToggle={handleSideToogle} />
