@@ -11,6 +11,7 @@ import { Search } from "./Search";
 import { UserProfile } from "../UserProfile";
 import { appBar, logoText, toolbarWrapper } from "./style";
 
+
 type NavMenuProps = { handleSideToggle: () => void };
 
 export const NavMenu: FC<NavMenuProps> = ({ handleSideToggle }) => {
