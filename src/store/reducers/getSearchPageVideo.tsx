@@ -13,16 +13,20 @@ const instance = axios.create({
 
 export const getSearchPageVideos = createAsyncThunk(
   "mainApp/GetSearchPageVideo",
-  async (isNext: boolean, { getState }) => {
+  async (pageType: "startPage" | "nextPage", { getState }) => {
     const {
       mainApp: { nextPageToken: nextPageTokenFromState, videos, searchTerm },
     } = getState() as RootState;
+
+    const pageTypes = {
+      startPage: "",
+      nextPage: `pageToken=${nextPageTokenFromState}`,
+    };
+
     const {
       data: { items, nextPageToken },
     } = await axios.get(
-      `${YOUTUBE_API_URL}/search?q=${searchTerm}&key=${API_KEY}&part=snippet&type=video&${
-        isNext ? `pageToken=${nextPageTokenFromState}` : ""
-      }`
+      `${YOUTUBE_API_URL}/search?q=${searchTerm}&key=${API_KEY}&part=snippet&type=video&${pageTypes[pageType]}`
     );
 
     // const params = {

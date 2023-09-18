@@ -24,7 +24,7 @@ export const Search = () => {
     if (location.pathname !== "/search") {
       navigate("/search");
     } else {
-      dispatch(getSearchPageVideos(false));
+      dispatch(getSearchPageVideos("startPage"));
     }
   };
 

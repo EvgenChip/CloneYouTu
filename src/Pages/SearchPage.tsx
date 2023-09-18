@@ -24,7 +24,7 @@ export const SearchPage = () => {
     dispatch(clearVideos());
     if (searchTerm === "") navigate("/");
     else {
-      dispatch(getSearchPageVideos(false));
+      dispatch(getSearchPageVideos("startPage"));
     }
   }, [dispatch, navigate, searchTerm]);
 
@@ -49,7 +49,7 @@ export const SearchPage = () => {
         {items.length ? (
           <InfiniteScroll
             dataLength={items.length}
-            next={() => dispatch(getSearchPageVideos(true))}
+            next={() => dispatch(getSearchPageVideos("nextPage"))}
             hasMore={items.length < 500}
             loader={"Loading..."}
             height={900}>

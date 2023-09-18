@@ -18,10 +18,8 @@ export const ContentArea: FC<ContentAreaProps> = ({ open }) => {
   console.log("data", videos);
 
   useEffect(() => {
-    dispatch(getHomePageVideo(false));
+    dispatch(getHomePageVideo("startPage"));
   }, [dispatch]);
-
-
 
   return (
     <Box component="main" sx={appContentWrapper}>
@@ -38,7 +36,7 @@ export const ContentArea: FC<ContentAreaProps> = ({ open }) => {
       {videos.length ? (
         <InfiniteScroll
           dataLength={videos.length}
-          next={() => dispatch(getHomePageVideo(true))}
+          next={() => dispatch(getHomePageVideo("nextPage"))}
           hasMore={videos.length < 500}
           loader={"Loading..."}
           height={900}>
