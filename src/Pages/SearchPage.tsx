@@ -83,6 +83,7 @@ export const SearchPage = () => {
                         channelTitle={channelTitle}
                         videoId={videoId}
                         channelImage={channelImage}
+                        key={key}
                       />
                     );
                   })}

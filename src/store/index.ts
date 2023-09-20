@@ -3,6 +3,7 @@ import { InitialState } from "./../Types";
 import { configureStore } from "@reduxjs/toolkit";
 import { getHomePageVideo } from "./reducers/getHomePageVideo";
 import { getSearchPageVideos } from "./reducers/getSearchPageVideo";
+import { getVideoDetails } from "./reducers/getVideoDetails";
 
 const initialState: InitialState = {
   videos: [],
@@ -36,6 +37,9 @@ const MainAppSlice = createSlice({
     builder.addCase(getSearchPageVideos.fulfilled, (state, action) => {
       state.videos = action.payload.parsedData;
       state.nextPageToken = action.payload.nextPageToken;
+    });
+    builder.addCase(getVideoDetails.fulfilled, (state, action) => {
+      state.currentPlaying = action.payload;
     });
   },
 });

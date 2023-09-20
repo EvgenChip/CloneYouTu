@@ -3,7 +3,6 @@ import Box from "@mui/system/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import Link from "@mui/material/Link";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
@@ -13,6 +12,7 @@ import { AiFillCheckCircle } from "react-icons/ai";
 import { Typography } from "@mui/material";
 import { trimText } from "../../data/data";
 import { appCardList } from "./styles";
+import { Link } from "react-router-dom";
 
 type AppContentProps = {
   url: string;
@@ -43,7 +43,7 @@ export const AppCard: FC<AppContentProps> = ({
         }}>
         <Typography>{duration}</Typography>
       </Box>
-      <Link href={`https://www.youtube.com/watch?v=${videoId}`}>
+      <Link to={`/watch/${videoId}`}>
         <CardMedia component="img" height="240" image={url} alt={title} />
       </Link>
       <CardContent sx={{ m: 0, p: 0 }}>
