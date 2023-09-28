@@ -15,6 +15,8 @@ export const getVideoDetails = createAsyncThunk(
       `${YOUTUBE_API_URL}/videos?key=${API_KEY}&part=snippet,statistics&type=video&id=${id}`
     );
     console.log("getid", id);
+    console.log("items0", items);
+
     return parseData(items[0]);
   }
 );
