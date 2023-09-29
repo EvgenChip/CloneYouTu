@@ -9,20 +9,48 @@ import { FaShare } from "react-icons/fa";
 import { BsThreeDots } from "react-icons/bs";
 import { NavMenu } from "../components/navigation/NavMenu";
 import { getVideoDetails } from "../store/reducers/getVideoDetails";
+import { useAuth } from "../store/auth/useAuth";
+import classNames from "classnames";
+import {
+  addToFavorites,
+  removeFromFavorites,
+  toggleFavorites,
+} from "../store/favorites/actions/favorite.actions";
+import { database } from "../firebase.config";
+import { SideList } from "../components/sideList/SideList";
+import { Button } from "../components/button/Button";
 
 export const WatchPage = () => {
-  const [openSide, setOpenSide] = useState(false);
-  const [showMoreStatus, setShowMoreStatus] = useState<boolean>(false);
   const { id } = useParams();
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  const favoriteFlag = useAppSelector((state) =>
+    state.favorites.favorites.map((el) => el.id).includes(id)
+  );
   const currentPlaying = useAppSelector(
     (state) => state.mainApp.currentPlaying
   );
-  console.log(id);
-  const handleSideToogle = () => {
-    setOpenSide(!openSide);
-  };
+  const testData = useAppSelector((state) =>
+    state.mainApp.currentPlaying
+      ? {
+          id: state.mainApp.currentPlaying.videoId,
+          title: state.mainApp.currentPlaying.title,
+          description: state.mainApp.currentPlaying.description,
+        }
+      : {}
+  );
+  const [favoriteStateFlag, setFavoriteStateFlag] =
+    useState<boolean>(favoriteFlag);
+  const [showMoreStatus, setShowMoreStatus] = useState<boolean>(false);
+
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  console.log(favoriteFlag);
+
+  const { isAuth, uid, email } = useAuth();
+
+  const favoriteButtonTitle = favoriteFlag
+    ? "Убрать из избранного"
+    : "Добавить в избранное";
 
   useEffect(() => {
     if (id) {
@@ -33,14 +61,26 @@ export const WatchPage = () => {
     }
   }, [id, navigate, dispatch]);
 
+  const handleFavoritesClick = () => {
+    if (isAuth) {
+      dispatch(toggleFavorites(testData));
+      setFavoriteStateFlag(favoriteFlag);
+    } else {
+      navigate("/");
+    }
+  };
   return (
     <>
       {currentPlaying && (
         <div className="max-h-screen overflow-hidden">
           <div style={{ height: "7.5vh" }}>
-            <NavMenu handleSideToggle={handleSideToogle} />
+            <NavMenu />
           </div>
+
           <div className="flex w-full" style={{ height: "92.5vh" }}>
+            <div>
+              <SideList />
+            </div>
             <div className="flex gap-y-10 gap-x-5 p-7 mx-20 mr-0 w-full overflow-auto">
               <div style={{ maxWidth: "800px" }}>
                 <div>
@@ -105,8 +145,17 @@ export const WatchPage = () => {
                           </h6>
                         </div>
                         <div>
-                          <button className="uppercase bg-red-600 rounded-sm p-2 text-sm tracking-wider">
-                            subscribe
+                          <button
+                            onClick={handleFavoritesClick}
+                            className={classNames(
+                              "uppercase",
+                              {
+                                "bg-red-600": favoriteFlag,
+                                "bg-green-600": !favoriteFlag,
+                              },
+                              "rounded-sm p-2 text-sm tracking-wider"
+                            )}>
+                            {favoriteButtonTitle}
                           </button>
                         </div>
                       </div>

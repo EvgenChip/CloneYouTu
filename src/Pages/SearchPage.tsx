@@ -19,6 +19,7 @@ export const SearchPage = () => {
   const items = useAppSelector((state) => state.mainApp.videos);
   const searchTerm = useAppSelector((state) => state.mainApp.searchTerm);
   const sideOpen = openSide ? "70px" : "250px";
+  console.log("searchterm", searchTerm);
 
   useEffect(() => {
     dispatch(clearVideos());

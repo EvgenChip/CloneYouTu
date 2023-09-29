@@ -4,6 +4,9 @@ import { configureStore } from "@reduxjs/toolkit";
 import { getHomePageVideo } from "./reducers/getHomePageVideo";
 import { getSearchPageVideos } from "./reducers/getSearchPageVideo";
 import { getVideoDetails } from "./reducers/getVideoDetails";
+import { AuthSlice } from "./auth/authSlice";
+import { FavoritesSlice } from "./favorites/favoritesSlice";
+import { HistorySlice } from "./history/historySlice";
 
 const initialState: InitialState = {
   videos: [],
@@ -47,6 +50,9 @@ const MainAppSlice = createSlice({
 export const store = configureStore({
   reducer: {
     mainApp: MainAppSlice.reducer,
+    auth: AuthSlice.reducer,
+    favorites: FavoritesSlice.reducer,
+    history: HistorySlice.reducer,
   },
 });
 

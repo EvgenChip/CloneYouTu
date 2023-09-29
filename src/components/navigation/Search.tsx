@@ -12,6 +12,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { changeSearchTerm, clearVideos } from "../../store";
 import { getSearchPageVideos } from "../../store/reducers/getSearchPageVideo";
+import { addToHistory } from "../../store/history/action/historyAction";
 
 export const Search = () => {
   const location = useLocation();
@@ -28,6 +29,8 @@ export const Search = () => {
     }
   };
 
+
+
   return (
     <Box sx={flexAlignCenter}>
       <Paper component="form" sx={searchBar}>
@@ -41,6 +44,7 @@ export const Search = () => {
           onClick={(e) => {
             e.preventDefault();
             handleSearch();
+            dispatch(addToHistory(searchTerm));
           }}
           type="button"
           sx={{ backgroundColor: "#eee", borderRadius: 0 }}
