@@ -3,23 +3,11 @@ import axios from "axios";
 import { convertRawViews, timesVideo } from "../../utils";
 
 import { YOUTUBE_API_URL } from "../../utils/constants";
+import { useGetVideoDetailsQuery } from "../../api/api";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
-export const getVideoDetails = createAsyncThunk(
-  "mainApp/GetVideoDetails",
-  async (id: string) => {
-    const {
-      data: { items },
-    } = await axios.get(
-      `${YOUTUBE_API_URL}/videos?key=${API_KEY}&part=snippet,statistics&type=video&id=${id}`
-    );
-    console.log("getid", id);
-    return parseData(items[0]);
-  }
-);
-
-const parseData = async (item: {
+type DataItem = {
   snippet: {
     channelId: string;
     title: string;
@@ -29,23 +17,13 @@ const parseData = async (item: {
   };
   id: string;
   statistics: { viewCount: string; likeCount: string };
-}) => {
-  const {
-    data: {
-      items: [
-        {
-          snippet: {
-            thumbnails: {
-              default: { url: channelImage },
-            },
-          },
-          statistics: { subscriberCount },
-        },
-      ],
-    },
-  } = await axios.get(
-    `${YOUTUBE_API_URL}/channels?part=snippet,statistics&id=${item.snippet.channelId}&key=${API_KEY}`
-  );
+};
+// const channelImage = data.items[0].snippet.thumbnails.default.url;
+//   const subscriberCount = data.items[0].statistics.subscriberCount;
+export const parseDataVideoDetais = (item: DataItem, detail: any) => {
+  const channelImage = detail.snippet.thumbnails.default.url;
+  const subscriberCount = detail.statistics.subscriberCount;
+  console.log("ITEM", item);
 
   return {
     videoId: item.id,

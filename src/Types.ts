@@ -14,7 +14,7 @@ export interface HomePageVideos {
   link: string;
   thumbnail: string;
   duration: string;
-  views: string;
+  //   views: string;
   videoAge: string;
   channelInfo: {
     id: string;

@@ -7,39 +7,50 @@ import Paper from "@mui/material/Paper";
 import SearchIcon from "@mui/icons-material/Search";
 import { flexAlignCenter } from "../../styles/styles";
 import { searchBar } from "./style";
-import { FC, useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { changeSearchTerm, clearVideos } from "../../store";
-import { getSearchPageVideos } from "../../store/reducers/getSearchPageVideo";
+import { changeSearchTerm } from "../../store";
 
 export const Search = () => {
+  const searchTerm = useAppSelector((state) => state.mainApp.searchTerm);
+  const [searchStr, setSearchStr] = useState(searchTerm);
   const location = useLocation();
   const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
-  const searchTerm = useAppSelector((state) => state.mainApp.searchTerm);
 
   const handleSearch = () => {
+    dispatch(changeSearchTerm(searchStr));
+
     if (location.pathname !== "/search") {
       navigate("/search");
-    } else {
-      dispatch(getSearchPageVideos("startPage"));
     }
   };
 
+  useEffect(() => {
+    if (!searchTerm) {
+      navigate("/");
+    }
+  }, []);
+
   return (
     <Box sx={flexAlignCenter}>
-      <Paper component="form" sx={searchBar}>
+      <Paper sx={searchBar}>
         <InputBase
-          value={searchTerm}
-          onChange={(e) => dispatch(changeSearchTerm(e.target.value))}
+          value={searchStr}
+          onChange={(e) => setSearchStr(e.target.value)}
+          onKeyUp={(e) => {
+            e.preventDefault();
+            if (e.key === "Enter" || e.keyCode === 13) {
+              handleSearch();
+            }
+          }}
           sx={{ ml: 1, flex: 1, pl: 1 }}
           placeholder="Search..."
         />
         <IconButton
-          onClick={(e) => {
-            e.preventDefault();
+          onClick={() => {
             handleSearch();
           }}
           type="button"
@@ -48,7 +59,7 @@ export const Search = () => {
           <SearchIcon />
         </IconButton>
       </Paper>
-      <Button sx={{ minWidth: "auto" }}>
+      <Button sx={{ minWidth: "auto" }} disabled>
         <BsFillMicFill size={18} />
       </Button>
     </Box>

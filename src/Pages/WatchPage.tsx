@@ -8,7 +8,8 @@ import { MdOutlinePlaylistAdd } from "react-icons/md";
 import { FaShare } from "react-icons/fa";
 import { BsThreeDots } from "react-icons/bs";
 import { NavMenu } from "../components/navigation/NavMenu";
-import { getVideoDetails } from "../store/reducers/getVideoDetails";
+import { useAwesomeVideo } from "../api/api";
+import { GetVideoDetail } from "../utils/parseDataVideoDetails";
 
 export const WatchPage = () => {
   const [openSide, setOpenSide] = useState(false);
@@ -16,17 +17,20 @@ export const WatchPage = () => {
   const { id } = useParams();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const currentPlaying = useAppSelector(
-    (state) => state.mainApp.currentPlaying
-  );
+  //   const currentPlaying = useAppSelector(
+  //     (state) => state.mainApp.currentPlaying
+  //   );
   console.log(id);
   const handleSideToogle = () => {
     setOpenSide(!openSide);
   };
 
+  const currentPlaying = useAwesomeVideo(id);
+  console.log("REEES", currentPlaying);
+
   useEffect(() => {
     if (id) {
-      dispatch(getVideoDetails(id));
+      //   dispatch(getVideoDetails(id));
       setShowMoreStatus(false);
     } else {
       navigate("/");

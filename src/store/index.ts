@@ -1,9 +1,14 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import {
+  PayloadAction,
+  createSlice,
+  getDefaultMiddleware,
+} from "@reduxjs/toolkit";
 import { InitialState } from "./../Types";
 import { configureStore } from "@reduxjs/toolkit";
 import { getHomePageVideo } from "./reducers/getHomePageVideo";
 import { getSearchPageVideos } from "./reducers/getSearchPageVideo";
-import { getVideoDetails } from "./reducers/getVideoDetails";
+import { Favorite } from "@mui/icons-material";
+import { youtubeApi } from "../api/api";
 
 const initialState: InitialState = {
   videos: [],
@@ -38,16 +43,16 @@ const MainAppSlice = createSlice({
       state.videos = action.payload.parsedData;
       state.nextPageToken = action.payload.nextPageToken;
     });
-    builder.addCase(getVideoDetails.fulfilled, (state, action) => {
-      state.currentPlaying = action.payload;
-    });
   },
 });
 
 export const store = configureStore({
   reducer: {
     mainApp: MainAppSlice.reducer,
+    [youtubeApi.reducerPath]: youtubeApi.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(youtubeApi.middleware),
 });
 
 export const { clearVideos, changeSearchTerm, clearSearchTerm } =

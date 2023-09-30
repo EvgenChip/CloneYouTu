@@ -52,7 +52,6 @@ export const parseData = (
             duration: parseVideoDuration(
               videosData[index].contentDetails.duration
             ),
-            views: convertRawViews(videosData[index].statistics.viewCount),
             videoAge: timesVideo(new Date(item.snippet.publishedAt)),
             channelInfo: {
               id: item.snippet.channelId,
