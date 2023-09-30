@@ -33,15 +33,6 @@ export const WatchPage = () => {
     state.favorites.favorites.map((el) => el.id).includes(id)
   );
 
-  const testData = useAppSelector((state) =>
-    state.mainApp.currentPlaying
-      ? {
-          id: state.mainApp.currentPlaying.videoId,
-          title: state.mainApp.currentPlaying.title,
-          description: state.mainApp.currentPlaying.description,
-        }
-      : {}
-  );
   const [favoriteStateFlag, setFavoriteStateFlag] =
     useState<boolean>(favoriteFlag);
   const [showMoreStatus, setShowMoreStatus] = useState<boolean>(false);
@@ -57,6 +48,24 @@ export const WatchPage = () => {
   const currentPlaying = useAwesomeVideo(id);
   console.log("REEES", currentPlaying);
 
+  const favoritesInfo = currentPlaying
+    ? {
+        id: currentPlaying.videoId,
+        title: currentPlaying.title,
+        description: currentPlaying.description,
+      }
+    : {};
+
+  //   const testData = useAppSelector((state) =>
+  //     state.mainApp.currentPlaying
+  //       ? {
+  //           id: state.mainApp.currentPlaying.videoId,
+  //           title: state.mainApp.currentPlaying.title,
+  //           description: state.mainApp.currentPlaying.description,
+  //         }
+  //       : {}
+  //   );
+
   useEffect(() => {
     if (id) {
       //   dispatch(getVideoDetails(id));
@@ -68,7 +77,7 @@ export const WatchPage = () => {
 
   const handleFavoritesClick = () => {
     if (isAuth) {
-      dispatch(toggleFavorites(testData));
+      dispatch(toggleFavorites(favoritesInfo));
       setFavoriteStateFlag(favoriteFlag);
     } else {
       navigate("/");
@@ -187,12 +196,6 @@ export const WatchPage = () => {
                   </div>
                 </div>
               </div>
-              {/* <div className="mr-24 flex flex-col gap-3">
-                {getRecommendedVideos.length &&
-                  recommendedVideos.map((item) => {
-                    return <WatchCard data={item} key={item.videoId} />;
-                  })}
-              </div> */}
             </div>
           </div>
         </div>

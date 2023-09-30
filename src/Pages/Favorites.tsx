@@ -8,7 +8,6 @@ import { NavMenu } from "../components/navigation/NavMenu";
 import { SideList } from "../components/sideList/SideList";
 import InfiniteScroll from "react-infinite-scroll-component";
 import {
-  favoriteVideoDetails,
   removeFromFavorites,
   updateStateFavorites,
 } from "../store/favorites/actions/favorite.actions";
@@ -42,10 +41,6 @@ export const Favorites = () => {
                 <div className="flex gap-3">
                   <Link to={`/watch/${item.id}`}>
                     <div className="relative">
-                      {/* <span className="absolute bottom-3 right-3 text-sm bg-gray-900 px-2 py-0.5 z-10">
-                        {"data.videoDuration"}
-                      </span> */}
-
                       <iframe
                         width="300"
                         height="200"
@@ -83,28 +78,6 @@ export const Favorites = () => {
         )}
       </div>
     </div>
-    // <div>
-    //   {" "}
-    //   {favorites.map((item: any) => {
-    //     return (
-    //       <div>
-    //         <div>{item.id}</div>
-    //         <div>{item.title}</div>
-    //         <div>{item.description}</div>
-    //       </div>
-    //     );
-    //   })}
-    // </div>
   );
 };
 
-{
-  /* <iframe
-              width="200"
-              height="200"
-              src={`https://www.youtube.com/embed/${item.id}`}
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer;clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen></iframe> */
-}

@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-// import { collection, addDoc, setDoc, doc, getDoc } from "firebase/firestore";
+
 import {
   arrayRemove,
   arrayUnion,
@@ -9,10 +9,8 @@ import {
   updateDoc,
 } from "firebase/firestore/lite";
 import { database } from "../../../firebase.config";
-import { useAuth } from "../../auth/useAuth";
-import { AuthState } from "../../auth/authSlice";
 import { AppDispatch, RootState } from "../..";
-import { Favorites, FavoritesState } from "../favoritesSlice";
+
 
 export type favoriteVideoDetails = {
   id?: string | number;

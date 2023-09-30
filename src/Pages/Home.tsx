@@ -8,7 +8,6 @@ import { clearVideos } from "../store";
 import { getHomePageVideo } from "../store/reducers/getHomePageVideo";
 
 export const Home = () => {
-  const dispatch = useAppDispatch();
   const [openSide, setOpenSide] = useState(false);
 
   const handleSideToogle = () => {

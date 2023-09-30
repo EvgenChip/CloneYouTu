@@ -31,7 +31,7 @@ export const ButtonRemove = ({
     absoluteParms,
     widthParms,
     {
-      ["border border-zinc-200 hover:border-zinc-300"]: withBorder,
+      "border border-zinc-200 hover:border-zinc-300": withBorder,
       invert: invertColor,
     }
   );

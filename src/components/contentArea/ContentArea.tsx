@@ -7,7 +7,6 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { getHomePageVideo } from "../../store/reducers/getHomePageVideo";
 import { appContentWrapper } from "./styles";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { clearVideos } from "../../store";
 
 type ContentAreaProps = { open: boolean };
 
