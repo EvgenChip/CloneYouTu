@@ -9,6 +9,9 @@ import { getHomePageVideo } from "./reducers/getHomePageVideo";
 import { getSearchPageVideos } from "./reducers/getSearchPageVideo";
 import { Favorite } from "@mui/icons-material";
 import { youtubeApi } from "../api/api";
+import { AuthSlice } from "./auth/authSlice";
+import { FavoritesSlice } from "./favorites/favoritesSlice";
+import { HistorySlice } from "./history/historySlice";
 
 const initialState: InitialState = {
   videos: [],
@@ -50,6 +53,9 @@ export const store = configureStore({
   reducer: {
     mainApp: MainAppSlice.reducer,
     [youtubeApi.reducerPath]: youtubeApi.reducer,
+    auth: AuthSlice.reducer,
+    favorites: FavoritesSlice.reducer,
+    history: HistorySlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(youtubeApi.middleware),

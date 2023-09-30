@@ -12,9 +12,23 @@ import Menu from "@mui/material/Menu";
 import Typography from "@mui/material/Typography";
 import { inlineText } from "../styles/styles";
 import { useToggle } from "../hooks/userToggle";
+import { useAuth } from "../store/auth/useAuth";
+import { removeUser } from "../store/auth/authSlice";
+import { useAppDispatch } from "../store/hooks";
+import { useNavigate } from "react-router-dom";
+import { logoutAction } from "../store/auth/actions/authActions";
 
 export const UserProfile: FC = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { userEl, open, handleClick, handleClose } = useToggle();
+  const { isAuth, email } = useAuth();
+  const userName = isAuth ? email : "Гость";
+  const logButtonTitle = isAuth ? "Выйти" : "Войти";
+  const handleLogClick = () => {
+    isAuth ? dispatch(logoutAction()) : navigate("/login");
+  };
+  console.log("userProfile", email, isAuth);
 
   return (
     <Box sx={{ px: 1 }}>
@@ -34,7 +48,7 @@ export const UserProfile: FC = () => {
             <Avatar alt="Chanel avatar" />
           </ListItemAvatar>
           <ListItemText
-            primary="Evgen"
+            primary={userName}
             secondary={
               <>
                 <Typography sx={inlineText} component="span">
@@ -48,9 +62,9 @@ export const UserProfile: FC = () => {
         <Box sx={{ minWidth: 300, borderTop: "1px solid #ddd" }}>
           <List sx={{ p: 0 }}>
             <ListItem disablePadding>
-              <ListItemButton>
+              <ListItemButton onClick={handleLogClick}>
                 {/* <ListItemIcon>{item.icon}</ListItemIcon> */}
-                <ListItemText primary="HI" />
+                <ListItemText primary={logButtonTitle} />
               </ListItemButton>
             </ListItem>
           </List>

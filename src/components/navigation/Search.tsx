@@ -11,6 +11,7 @@ import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { changeSearchTerm } from "../../store";
+import { addToHistory } from "../../store/history/action/historyAction";
 
 export const Search = () => {
   const searchTerm = useAppSelector((state) => state.mainApp.searchTerm);
@@ -29,7 +30,7 @@ export const Search = () => {
   };
 
   useEffect(() => {
-    if (!searchTerm) {
+    if (!searchTerm && location.pathname === "/search") {
       navigate("/");
     }
   }, []);
@@ -52,6 +53,7 @@ export const Search = () => {
         <IconButton
           onClick={() => {
             handleSearch();
+            dispatch(addToHistory(searchTerm));
           }}
           type="button"
           sx={{ backgroundColor: "#eee", borderRadius: 0 }}

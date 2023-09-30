@@ -15,6 +15,7 @@ export const SearchPage = () => {
 
   const searchTerm = useAppSelector((state) => state.mainApp.searchTerm);
   const sideOpen = openSide ? "70px" : "250px";
+  console.log("searchterm", searchTerm);
 
   const { data: items, nextPageToken } = useAwesomeSearchVideo(nextPage);
 
