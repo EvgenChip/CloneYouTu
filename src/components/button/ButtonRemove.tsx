@@ -7,8 +7,8 @@ type Props = {
   bgColor?: string | undefined;
   withBorder: boolean;
   children?: ReactNode;
-  absoluteParms?: string;
-  widthParms?: string;
+  absoluteParams?: string;
+  widthParams?: string;
   type: "button" | "submit";
   invertColor?: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
@@ -19,19 +19,19 @@ export const ButtonRemove = ({
   bgColor,
   withBorder,
   children,
-  absoluteParms,
+  absoluteParams,
   type,
-  widthParms,
+  widthParams,
   invertColor,
   onClick,
 }: Props) => {
   const buttonClassNames = classNames(
     "text-zinc-100 font-bold py-1.5 px-2 hover:text-zinc-300 hover:brightness-105",
     bgColor,
-    absoluteParms,
-    widthParms,
+    absoluteParams,
+    widthParams,
     {
-      ["border border-zinc-200 hover:border-zinc-300"]: withBorder,
+      "border border-zinc-200 hover:border-zinc-300": withBorder,
       invert: invertColor,
     }
   );
@@ -47,8 +47,8 @@ ButtonRemove.propTypes = {
   bgColor: PropTypes.string,
   withBorder: PropTypes.bool.isRequired,
   children: PropTypes.node,
-  absoluteParms: PropTypes.string,
-  widthParms: PropTypes.string,
+  absoluteParams: PropTypes.string,
+  widthParams: PropTypes.string,
   type: PropTypes.oneOf(["button", "submit"]).isRequired,
   invertColor: PropTypes.bool,
   onClick: PropTypes.func,

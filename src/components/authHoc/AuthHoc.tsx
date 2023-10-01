@@ -4,19 +4,18 @@ import { Navigate } from "react-router-dom";
 
 type Props = {
   children: ReactNode;
-
-  forAuth: boolean;
 };
 
-export const AuthHoc = ({ forAuth, children }: Props) => {
-  const { isAuth } = useAuth();
+export const AuthHoc = ({ children }: Props) => {
+  const { isAuth, checked } = useAuth();
 
-  if (isAuth && forAuth) {
+  if (!checked) {
+    return <div>loading</div>;
+  }
+
+  if (isAuth) {
     return <div>{children}</div>;
   }
-  if (!isAuth && !forAuth) {
-    return <div>{children}</div>;
-  } else {
-    return <Navigate to={"/login"} />;
-  }
+
+  return <Navigate to={"/login"} />;
 };

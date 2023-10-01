@@ -7,6 +7,7 @@ import {
 
 export type AuthState = {
   isAuth: boolean;
+  checked: boolean;
   email: string;
   loading: boolean;
   token: string;
@@ -14,6 +15,7 @@ export type AuthState = {
 };
 
 const initialState: AuthState = {
+  checked: false,
   isAuth: false,
   email: "",
   loading: false,
@@ -38,6 +40,9 @@ export const AuthSlice = createSlice({
       state.uid = "";
       state.isAuth = false;
       state.loading = true;
+    },
+    setUserChecked: (state, action) => {
+      state.checked = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -81,4 +86,4 @@ export const AuthSlice = createSlice({
   },
 });
 
-export const { setUser, removeUser } = AuthSlice.actions;
+export const { setUser, removeUser, setUserChecked } = AuthSlice.actions;

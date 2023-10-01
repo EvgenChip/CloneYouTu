@@ -1,7 +1,6 @@
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { grey, pink } from "@mui/material/colors";
 import React, { FC } from "react";
-import { type } from "os";
 
 const theme = createTheme({
   typography: {
@@ -19,42 +18,6 @@ const theme = createTheme({
       main: pink[500],
     },
   },
-  //   components: {
-  //     MuiTabs: {
-  //       styleOverrides: {
-  //         indicator: {
-  //           backgroundColor: "transparent",
-  //         },
-  //       },
-  //     },
-  //     MuiTab: {
-  //       styleOverrides: {
-  //         root: {
-  //           backgroundColor: "#eee",
-  //           borderRadius: 30,
-  //           marginRight: "10px",
-  //           marginTop: "10px",
-  //           minHeight: "20px",
-  //           minWidth: "60px",
-  //           ":active": {
-  //             backgroundColor: "black",
-  //             color: "white",
-  //           },
-  //           ":focus": {
-  //             backgroundColor: "black",
-  //             color: "white",
-  //           },
-  //           ":selected": {
-  //             backgroundColor: "black",
-  //             color: "white",
-  //           },
-  //         },
-  //         indicator: {
-  //           backgroundColor: "transparent",
-  //         },
-  //       },
-  //     },
-  //   },
 });
 
 type AppThemeProviderProp = {

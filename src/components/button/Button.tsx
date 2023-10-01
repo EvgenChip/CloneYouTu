@@ -1,22 +1,27 @@
+import { FC } from "react";
 import classnames from "classnames";
+import PropTypes from "prop-types";
 
 interface Props {
   children: string;
   className?: "w-full" | "wish";
   disabled?: boolean;
   icon?: string;
+  type?: "submit" | "reset" | "button";
   onClick?: () => void;
 }
 
-export const Button = ({
+export const Button: FC<Props> = ({
   children,
   className,
   disabled,
   icon,
+  type,
   onClick,
-}: Props) => {
+}) => {
   return (
     <button
+      type={type}
       onClick={onClick}
       className={classnames(
         "px-5  bg-orange rounded-xl text-white h-14 hover:opacity-70 flex justify-center items-center",
@@ -33,4 +38,13 @@ export const Button = ({
       {children}
     </button>
   );
+};
+
+Button.propTypes = {
+  children: PropTypes.string,
+  className: PropTypes.oneOf(["w-full", "wish"]),
+  disabled: PropTypes.bool,
+  icon: PropTypes.string,
+  type: PropTypes.oneOf(["submit", "reset", "button"]),
+  onClick: PropTypes.func,
 };

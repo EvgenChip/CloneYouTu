@@ -1,16 +1,17 @@
+import { FC } from "react";
+
 import { AiFillYoutube } from "react-icons/ai";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import React, { FC } from "react";
+
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { flexAlignCenter, hideOnMobile } from "../../styles/styles";
 import { Search } from "./Search";
 import { UserProfile } from "../UserProfile";
 import { appBar, logoText, toolbarWrapper } from "./style";
-
 
 type NavMenuProps = { handleSideToggle?: () => void };
 

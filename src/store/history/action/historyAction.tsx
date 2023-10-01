@@ -1,5 +1,4 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-// import { collection, addDoc, setDoc, doc, getDoc } from "firebase/firestore";
 import {
   arrayRemove,
   arrayUnion,
@@ -9,29 +8,27 @@ import {
   updateDoc,
 } from "firebase/firestore/lite";
 import { database } from "../../../firebase.config";
-import { useAuth } from "../../auth/useAuth";
-import { AuthState } from "../../auth/authSlice";
 import { AppDispatch, RootState } from "../..";
-import { HistoryState } from "../historySlice";
 
-export const updateStateHistory = createAsyncThunk(
-  "history/update",
-  async (_, { getState }) => {
-    const { auth }: any = getState();
-    const docRef = doc(database, "history", auth.uid);
-    const docSnap = await getDoc(docRef);
-    const { history } = docSnap.data();
-    console.log("history", history);
-    return history;
-  }
-);
+export const updateStateHistory = createAsyncThunk<
+  string[],
+  undefined,
+  { state: RootState; dispatch: AppDispatch }
+>("history/update", async (_, { getState }) => {
+  const { auth } = getState();
+  const docRef = doc(database, "history", auth.uid);
+  const docSnap = await getDoc(docRef);
+  const { history } = docSnap.data() as { history: string[] };
+  console.log("history", history);
+  return history;
+});
 
 export const addToHistory = createAsyncThunk<
   void,
   string,
   { state: RootState; dispatch: AppDispatch }
 >("history/add", async (data, { getState, dispatch }) => {
-  const { auth }: any = getState();
+  const { auth } = getState();
   console.log("history", auth);
   const docRef = doc(database, "history", auth.uid);
   const docSnap = await getDoc(docRef);
@@ -39,6 +36,7 @@ export const addToHistory = createAsyncThunk<
   if (auth.isAuth) {
     if (docSnap.exists()) {
       try {
+        console.log("write data", data);
         await updateDoc(docRef, {
           history: arrayUnion(data),
         });
@@ -66,7 +64,7 @@ export const removeToHistory = createAsyncThunk<
   string,
   { state: RootState; dispatch: AppDispatch }
 >("history/remove", async (data, { getState, dispatch }) => {
-  const { auth }: any = getState();
+  const { auth } = getState();
   const docRef = doc(database, "history", auth.uid);
   const docSnap = await getDoc(docRef);
 

@@ -2,13 +2,9 @@ import { ContentArea } from "../components/contentArea/ContentArea";
 import { NavMenu } from "../components/navigation/NavMenu";
 import { Box } from "@mui/material";
 import { appWrapper } from "../styles/styles";
-import { useEffect, useState } from "react";
-import { useAppDispatch } from "../store/hooks";
-import { clearVideos } from "../store";
-import { getHomePageVideo } from "../store/reducers/getHomePageVideo";
+import { useState } from "react";
 
-export const Home = () => {
-  const dispatch = useAppDispatch();
+const Home = () => {
   const [openSide, setOpenSide] = useState(false);
 
   const handleSideToogle = () => {
@@ -22,3 +18,5 @@ export const Home = () => {
     </Box>
   );
 };
+
+export default Home;
