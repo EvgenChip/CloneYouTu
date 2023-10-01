@@ -2,6 +2,7 @@
   "name": "cloneyoutu",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://evgenchip.github.io/cloneyoutu",
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
@@ -41,6 +42,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -b gh-pages -d build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint ./src"
@@ -69,6 +72,7 @@
     "@redux-devtools/rtk-query-monitor": "^3.1.1",
     "@tailwindcss/line-clamp": "^0.4.4",
     "autoprefixer": "^10.4.15",
+    "gh-pages": "^6.0.0",
     "postcss": "^8.4.29",
     "tailwindcss": "^3.3.3"
   }
