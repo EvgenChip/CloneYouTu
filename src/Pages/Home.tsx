@@ -4,7 +4,7 @@ import { Box } from "@mui/material";
 import { appWrapper } from "../styles/styles";
 import { useState } from "react";
 
-export const Home = () => {
+const Home = () => {
   const [openSide, setOpenSide] = useState(false);
 
   const handleSideToogle = () => {
@@ -18,3 +18,5 @@ export const Home = () => {
     </Box>
   );
 };
+
+export default Home;

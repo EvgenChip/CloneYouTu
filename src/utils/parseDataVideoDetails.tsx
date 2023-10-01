@@ -1,3 +1,4 @@
+import { VideosOrChannelsItem } from "../Types";
 import { convertRawViews, timesVideo } from "./";
 
 type DataItem = {
@@ -12,7 +13,10 @@ type DataItem = {
   statistics: { viewCount: string; likeCount: string };
 };
 
-export const parseDataVideoDetails = (item: DataItem, detail: any) => {
+export const parseDataVideoDetails = (
+  item: DataItem,
+  detail: VideosOrChannelsItem
+) => {
   const channelImage = detail.snippet.thumbnails.default.url;
   const subscriberCount = detail.statistics.subscriberCount;
 

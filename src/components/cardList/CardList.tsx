@@ -1,12 +1,18 @@
+import { FC } from "react";
 import { Box, Grid } from "@mui/material";
 import { AppCard } from "../card/Card";
+import { useAwesomeSearchVideo } from "../../api/hooks";
 
-export const CardList: any = ({ items }: any) => {
+type Props = {
+  items: ReturnType<typeof useAwesomeSearchVideo>["data"];
+};
+
+export const CardList: FC<Props> = ({ items }) => {
   return (
     <Box>
       <Grid container rowSpacing={1} columnSpacing={{ xs: 2, sm: 4 }}>
         {items.length &&
-          items.map((item: any) => {
+          items.map((item) => {
             const { duration, videoId, thumbnail, title, channelInfo } = item;
             const { image: channelImage, name: channelTitle } = channelInfo;
 

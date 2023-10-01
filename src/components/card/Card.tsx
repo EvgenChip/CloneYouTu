@@ -13,8 +13,9 @@ import { Typography } from "@mui/material";
 import { trimText } from "../../data/data";
 import { appCardList } from "./styles";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
-type AppContentProps = {
+type Props = {
   url: string;
   title: string;
   channelTitle: string;
@@ -23,7 +24,7 @@ type AppContentProps = {
   duration: string;
 };
 
-export const AppCard: FC<AppContentProps> = ({
+export const AppCard: FC<Props> = ({
   url,
   title,
   channelTitle,
@@ -76,4 +77,13 @@ export const AppCard: FC<AppContentProps> = ({
       </CardContent>
     </Card>
   );
+};
+
+AppCard.propTypes = {
+  url: PropTypes.string,
+  title: PropTypes.string,
+  channelTitle: PropTypes.string,
+  videoId: PropTypes.string,
+  channelImage: PropTypes.string,
+  duration: PropTypes.string,
 };

@@ -1,70 +1,14 @@
 import { YOUTUBE_API_URL } from "../utils/constants";
 
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import {
+  VideosOrChannels,
+  SearchParams,
+  SearchVideosResponse,
+  ChannelsDataResponse,
+} from "../Types";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
-
-export interface YouTubeVideoItem {
-  kind: string;
-  etag: string;
-  id: string;
-  snippet: Snippet;
-  contentDetails: ContentDetails;
-}
-
-export interface ContentDetails {
-  duration: string;
-  dimension: string;
-  definition: string;
-  caption: string;
-  licensedContent: boolean;
-  contentRating: ContentRating;
-  projection: string;
-}
-
-export interface ContentRating {}
-
-export interface Snippet {
-  publishedAt: Date;
-  channelId: string;
-  title: string;
-  description: string;
-  thumbnails: Thumbnails;
-  channelTitle: string;
-  tags: string[];
-  categoryId: string;
-  liveBroadcastContent: string;
-  localized: Localized;
-  defaultAudioLanguage: string;
-}
-
-export interface Localized {
-  title: string;
-  description: string;
-}
-
-export interface Thumbnails {
-  default: ThumbnailsDefault;
-  medium: ThumbnailsDefault;
-  high: ThumbnailsDefault;
-  standard: ThumbnailsDefault;
-}
-
-export interface ThumbnailsDefault {
-  url: string;
-  width: number;
-  height: number;
-}
-
-export interface YouTubeVideos {
-  etag: string;
-  kind: string;
-  items: YouTubeVideoItem[];
-  pageInfo: {
-    resultsPerPage: number;
-    totalResults: number;
-  };
-}
 
 const youtubeApi = createApi({
   reducerPath: "youtube/api",
@@ -73,36 +17,29 @@ const youtubeApi = createApi({
   }),
   endpoints: (builder) => ({
     getVideoDetails: builder.query({
-      query: (id) => ({
+      query: (videoId: string) => ({
         url: "/videos",
         params: {
           key: API_KEY,
           part: "snippet,statistics",
           type: "video",
-          id: id,
+          id: videoId,
         },
       }),
-      transformResponse: (response: YouTubeVideos) => response.items[0],
+      transformResponse: (response: VideosOrChannels) => response.items[0],
     }),
     getChannelDetails: builder.query({
-      query: (el) => ({
+      query: (channelId: string) => ({
         url: "/channels",
         params: {
           part: "snippet,statistics",
-          id: el,
+          id: channelId,
           key: API_KEY,
         },
       }),
-      transformResponse: (response: {
-        etag: string;
-        kind: string;
-        pageInfo: {
-          totalResults: number;
-          resultsPerPage: number;
-        };
-      }) => response.items?.[0],
+      transformResponse: (response: VideosOrChannels) => response.items?.[0],
     }),
-    getChannelsData: builder.query({
+    getChannelsData: builder.query<ChannelsDataResponse, string[]>({
       query: (channelIds) => ({
         url: "/channels",
         params: {
@@ -112,8 +49,8 @@ const youtubeApi = createApi({
         },
       }),
     }),
-    getContentDetails: builder.query({
-      query: (videoIds) => ({
+    getContentDetails: builder.query<ChannelsDataResponse, string[]>({
+      query: (videoIds: string[]) => ({
         url: "/videos",
         params: {
           part: "snippet,contentDetails",
@@ -122,9 +59,19 @@ const youtubeApi = createApi({
         },
       }),
     }),
-    getSearchVideos: builder.query({
+    getSearchVideos: builder.query<SearchVideosResponse, SearchParams>({
       query: ({ pageToken, searchTerm }) => {
-        const req: any = {
+        const req: {
+          url: string;
+          params: {
+            key: string;
+            part: string;
+            type: string;
+            maxResults: number;
+            q?: string;
+            pageToken?: string;
+          };
+        } = {
           url: "/search",
           params: {
             key: API_KEY,
@@ -148,13 +95,6 @@ const youtubeApi = createApi({
         const { queryArgs, endpointName } = params;
         return `${endpointName}/${queryArgs.searchTerm}`;
       },
-      //   merge: (currentCache, newItems) => {
-      //     currentCache.items.push(...newItems.items);
-      //   },
-      //   forceRefetch({ currentArg, previousArg }) {
-      //     console.log({ currentArg, previousArg });
-      //     return currentArg !== previousArg;
-      //   },
     }),
   }),
 });

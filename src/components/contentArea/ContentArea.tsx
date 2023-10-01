@@ -10,12 +10,9 @@ type ContentAreaProps = { open: boolean };
 
 export const ContentArea: React.FC<ContentAreaProps> = ({ open }) => {
   const sideOpen = open ? "70px" : "250px";
-  const {
-    data: videos,
-    nextPageToken,
-    isError,
-    isLoading,
-  } = useAwesomeSearchVideo({ ignoreSearch: true });
+  const { data, nextPageToken } = useAwesomeSearchVideo({
+    ignoreSearch: true,
+  });
 
   return (
     <Box component="main" sx={appContentWrapper}>
@@ -30,10 +27,8 @@ export const ContentArea: React.FC<ContentAreaProps> = ({ open }) => {
         <SideList />
       </Box>
       <Content
-        videos={videos}
+        videos={data}
         nextPageToken={nextPageToken}
-        isError={isError}
-        isLoading={isLoading}
         sideOpen={sideOpen}
       />
     </Box>

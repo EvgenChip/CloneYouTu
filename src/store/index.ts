@@ -5,6 +5,7 @@ import { AuthSlice } from "./auth/authSlice";
 import { FavoritesSlice } from "./favorites/favoritesSlice";
 import { HistorySlice } from "./history/historySlice";
 import { middleware, reducer, reducerPath } from "../api/api";
+import { listenerMiddleware } from "./middleware";
 
 const initialState: InitialState = {
   videos: [],
@@ -44,7 +45,7 @@ export const store = configureStore({
     history: HistorySlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(middleware),
+    getDefaultMiddleware().concat(middleware, listenerMiddleware.middleware),
 });
 
 export const {

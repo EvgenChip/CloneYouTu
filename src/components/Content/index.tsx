@@ -3,52 +3,20 @@ import { CardList } from "../CardList/CardList";
 import { Box } from "@mui/material";
 import { useAppDispatch } from "../../store/hooks";
 import { setNextPageToken } from "../../store";
+import { useAwesomeSearchVideo } from "../../api/hooks";
 
 type ContentProps = {
-  videos: any;
-  isError: any;
-  isLoading: any;
-  nextPageToken: any;
-  sideOpen: any;
+  videos: ReturnType<typeof useAwesomeSearchVideo>["data"];
+  nextPageToken: string;
+  sideOpen: string;
 };
 
 export const Content: React.FC<ContentProps> = ({
   videos,
-  isError,
-  isLoading,
   nextPageToken,
   sideOpen,
 }) => {
   const dispatch = useAppDispatch();
-
-  if (isError) {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          width: "100%",
-        }}>
-        loading failed
-      </Box>
-    );
-  }
-
-  if (isLoading) {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          width: "100%",
-        }}>
-        loading...
-      </Box>
-    );
-  }
-
   if (videos.length === 0) {
     return (
       <Box

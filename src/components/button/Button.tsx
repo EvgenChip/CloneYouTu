@@ -1,6 +1,8 @@
+import { FC } from "react";
 import classnames from "classnames";
+import PropTypes from "prop-types";
 
-interface ButtonProps {
+interface Props {
   children: string;
   className?: "w-full" | "wish";
   disabled?: boolean;
@@ -9,14 +11,14 @@ interface ButtonProps {
   onClick?: () => void;
 }
 
-export const Button = ({
+export const Button: FC<Props> = ({
   children,
   className,
   disabled,
   icon,
   type,
   onClick,
-}: ButtonProps) => {
+}) => {
   return (
     <button
       type={type}
@@ -36,4 +38,13 @@ export const Button = ({
       {children}
     </button>
   );
+};
+
+Button.propTypes = {
+  children: PropTypes.string,
+  className: PropTypes.oneOf(["w-full", "wish"]),
+  disabled: PropTypes.bool,
+  icon: PropTypes.string,
+  type: PropTypes.oneOf(["submit", "reset", "button"]),
+  onClick: PropTypes.func,
 };

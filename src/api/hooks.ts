@@ -20,7 +20,6 @@ export const useAwesomeVideo = (id: string) => {
 
   const res = useMemo(() => {
     if (details && item) {
-      // @ts-ignore
       return parseDataVideoDetails(item, details);
     }
 
@@ -40,7 +39,7 @@ export const useAwesomeSearchVideo = (
     return { pageToken, searchTerm };
   }, [pageToken, searchTerm]);
 
-  const searchRes: any = useGetSearchVideosQuery(requestParams, {
+  const searchRes = useGetSearchVideosQuery(requestParams, {
     skip: !ignoreSearch && !searchTerm,
     refetchOnMountOrArgChange: true,
   });
@@ -56,12 +55,10 @@ export const useAwesomeSearchVideo = (
       return { videoIds, channelIds };
     }
 
-    items?.forEach(
-      (item: { snippet: { channelId: string }; id: { videoId: string } }) => {
-        channelIds.push(item.snippet.channelId);
-        videoIds.push(item.id.videoId);
-      }
-    );
+    items?.forEach((item) => {
+      channelIds.push(item.snippet.channelId);
+      videoIds.push(item.id.videoId);
+    });
 
     return { videoIds, channelIds };
   }, [items]);
@@ -83,23 +80,9 @@ export const useAwesomeSearchVideo = (
   );
   const videoData = contentDetails.data?.items;
 
-  const isError =
-    searchRes.isError || channelsDataRes.isError || contentDetails.isError;
-  const isLoading =
-    searchRes.isFetching ||
-    channelsDataRes.isFetching ||
-    contentDetails.isFetching;
-
-  const prevVideos = useRef([]);
+  const prevVideos = useRef<ReturnType<typeof parseData>>([]);
   const transformSearchRes = useMemo(() => {
-    if (
-      !isError &&
-      !isLoading &&
-      items &&
-      channelsData &&
-      channelsAndVideosIds &&
-      videoData
-    ) {
+    if (items && channelsData && channelsAndVideosIds && videoData) {
       const data = parseData(items, channelsData, videoData);
 
       if (pageToken) {
@@ -111,18 +94,12 @@ export const useAwesomeSearchVideo = (
       return {
         data: [...prevVideos.current],
         nextPageToken,
-        isError,
-        isLoading,
-        refetch: searchRes.refetch,
       };
     }
 
     return {
       nextPageToken,
       data: [],
-      isError,
-      isLoading,
-      refetch: searchRes.refetch,
     };
   }, [
     items,
@@ -131,9 +108,6 @@ export const useAwesomeSearchVideo = (
     pageToken,
     nextPageToken,
     channelsAndVideosIds,
-    isError,
-    isLoading,
-    searchRes,
   ]);
 
   return transformSearchRes;

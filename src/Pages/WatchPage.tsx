@@ -14,7 +14,7 @@ import classNames from "classnames";
 import { toggleFavorites } from "../store/favorites/actions/favorite.actions";
 import { SideList } from "../components/sideList/SideList";
 
-export const WatchPage = () => {
+const WatchPage = () => {
   const { id } = useParams();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -176,3 +176,5 @@ export const WatchPage = () => {
     </>
   );
 };
+
+export default WatchPage;

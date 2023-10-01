@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import { useAppDispatch } from "../../../store/hooks";
 import { removeFromFavorites } from "../../../store/favorites/actions/favorite.actions";
+import { Favorites } from "../../../store/favorites/favoritesSlice";
 
-export const Favorite: React.FC<{ item: any }> = ({ item }) => {
+export const Favorite: React.FC<{ item: Favorites }> = ({ item }) => {
   const dispatch = useAppDispatch();
 
   const removeFavorite = () => {
@@ -21,11 +22,7 @@ export const Favorite: React.FC<{ item: any }> = ({ item }) => {
             allowFullScreen></iframe>
         </div>
         <div className="flex gap-1 flex-col">
-          <h3 className="max-w-2xl">
-            <a href="#" className="line-clamp-2">
-              {item.title}
-            </a>
-          </h3>
+          <h3 className="max-w-2xl">{item.title}</h3>
 
           <div className="min-w-fit my-2"></div>
           <div className="max-w-2xl line-clamp-2 text-sm text-gray-400">

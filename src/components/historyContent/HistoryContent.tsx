@@ -28,7 +28,7 @@ export const HistoryContent = ({ link }: Props) => {
         <ButtonRemove
           onClick={handleRemoveHistory}
           type={"button"}
-          widthParms={"w-[90px]"}
+          widthParams={"w-[90px]"}
           name={"Remove"}
           bgColor="bg-red-600"
           withBorder={true}></ButtonRemove>
