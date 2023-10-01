@@ -1,0 +1,33 @@
+{
+  "files": {
+    "main.css": "/cloneyoutu/static/css/main.503fb64d.css",
+    "main.js": "/cloneyoutu/static/js/main.d0ff8a6c.js",
+    "static/js/370.24b9e5ab.chunk.js": "/cloneyoutu/static/js/370.24b9e5ab.chunk.js",
+    "static/js/870.20187c34.chunk.js": "/cloneyoutu/static/js/870.20187c34.chunk.js",
+    "static/js/186.6438d585.chunk.js": "/cloneyoutu/static/js/186.6438d585.chunk.js",
+    "static/js/176.0088d6e9.chunk.js": "/cloneyoutu/static/js/176.0088d6e9.chunk.js",
+    "static/js/697.a3401018.chunk.js": "/cloneyoutu/static/js/697.a3401018.chunk.js",
+    "static/js/787.0d9aacf7.chunk.js": "/cloneyoutu/static/js/787.0d9aacf7.chunk.js",
+    "static/js/738.8614f967.chunk.js": "/cloneyoutu/static/js/738.8614f967.chunk.js",
+    "static/js/365.ad22e11a.chunk.js": "/cloneyoutu/static/js/365.ad22e11a.chunk.js",
+    "static/js/617.472e92b6.chunk.js": "/cloneyoutu/static/js/617.472e92b6.chunk.js",
+    "static/js/206.03760dce.chunk.js": "/cloneyoutu/static/js/206.03760dce.chunk.js",
+    "index.html": "/cloneyoutu/index.html",
+    "main.503fb64d.css.map": "/cloneyoutu/static/css/main.503fb64d.css.map",
+    "main.d0ff8a6c.js.map": "/cloneyoutu/static/js/main.d0ff8a6c.js.map",
+    "370.24b9e5ab.chunk.js.map": "/cloneyoutu/static/js/370.24b9e5ab.chunk.js.map",
+    "870.20187c34.chunk.js.map": "/cloneyoutu/static/js/870.20187c34.chunk.js.map",
+    "186.6438d585.chunk.js.map": "/cloneyoutu/static/js/186.6438d585.chunk.js.map",
+    "176.0088d6e9.chunk.js.map": "/cloneyoutu/static/js/176.0088d6e9.chunk.js.map",
+    "697.a3401018.chunk.js.map": "/cloneyoutu/static/js/697.a3401018.chunk.js.map",
+    "787.0d9aacf7.chunk.js.map": "/cloneyoutu/static/js/787.0d9aacf7.chunk.js.map",
+    "738.8614f967.chunk.js.map": "/cloneyoutu/static/js/738.8614f967.chunk.js.map",
+    "365.ad22e11a.chunk.js.map": "/cloneyoutu/static/js/365.ad22e11a.chunk.js.map",
+    "617.472e92b6.chunk.js.map": "/cloneyoutu/static/js/617.472e92b6.chunk.js.map",
+    "206.03760dce.chunk.js.map": "/cloneyoutu/static/js/206.03760dce.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.503fb64d.css",
+    "static/js/main.d0ff8a6c.js"
+  ]
+}
