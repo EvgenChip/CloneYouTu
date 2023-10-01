@@ -7,7 +7,7 @@ import {
 } from "@firebase/auth";
 import { toast } from "react-hot-toast";
 
-import { setUser } from "../authSlice";
+import { setUser, setUserChecked } from "../authSlice";
 import { auth } from "../../../firebase.config";
 import { LoginForm } from "../../../Pages/Login";
 import { RegistrationForm } from "../../../Pages/Registration";
@@ -74,8 +74,10 @@ export const logoutAction = createAsyncThunk(
 export const authCheckAction = createAsyncThunk(
   "auth/checkAuth",
   (_, { rejectWithValue, dispatch }) => {
-    try {
-      onAuthStateChanged(auth, async (user) => {
+    onAuthStateChanged(
+      auth,
+      async (user) => {
+        console.log("user", user);
         if (user) {
           const token = await user.getIdToken();
           const uid = user.uid;
@@ -84,9 +86,13 @@ export const authCheckAction = createAsyncThunk(
 
           dispatch(setUser({ isAuth: true, token, uid, email }));
         }
-      });
-    } catch (err) {
-      return rejectWithValue(err);
-    }
+
+        dispatch(setUserChecked(true));
+      },
+      (err) => {
+        dispatch(setUserChecked(true));
+        rejectWithValue(err);
+      }
+    );
   }
 );

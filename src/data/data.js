@@ -1,7 +1,4 @@
 import { AiFillHome } from "react-icons/ai";
-import { MdOutlineExplore } from "react-icons/md";
-import { AiOutlinePlaySquare } from "react-icons/ai";
-import { MdSubscriptions } from "react-icons/md";
 import { BiLibrary } from "react-icons/bi";
 import { MdHistory } from "react-icons/md";
 import { BiVideo } from "react-icons/bi";
@@ -61,10 +58,6 @@ export const notificationData = [
 
 export const sideListItems = [
   { id: 1, text: "Home", link: "/", icon: <AiFillHome size={24} /> },
-  //   { id: 2, text: "Explore", icon: <MdOutlineExplore size={24} /> },
-  //   { id: 3, text: "Shorts", icon: <AiOutlinePlaySquare size={24} /> },
-  //   { id: 4, text: "Subscriptions", icon: <MdSubscriptions size={24} /> },
-  //   { id: 5, divider: true },
   { id: 6, text: "Library", link: "/favorites", icon: <BiLibrary size={24} /> },
   { id: 7, text: "History", link: "/history", icon: <MdHistory size={24} /> },
   { id: 8, text: "Your Videos", icon: <BiVideo size={24} /> },

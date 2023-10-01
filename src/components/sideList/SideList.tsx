@@ -18,7 +18,7 @@ export const SideList = () => {
 
       {sideListItems.map((item) => {
         return (
-          <Link to={item.link}>
+          <Link key={item.id} to={item.link}>
             <Fragment key={item.id}>
               {item.subdivision ? (
                 <>

@@ -1,10 +1,11 @@
 import classnames from "classnames";
 
-interface Props {
+interface ButtonProps {
   children: string;
   className?: "w-full" | "wish";
   disabled?: boolean;
   icon?: string;
+  type?: "submit" | "reset" | "button";
   onClick?: () => void;
 }
 
@@ -13,10 +14,12 @@ export const Button = ({
   className,
   disabled,
   icon,
+  type,
   onClick,
-}: Props) => {
+}: ButtonProps) => {
   return (
     <button
+      type={type}
       onClick={onClick}
       className={classnames(
         "px-5  bg-orange rounded-xl text-white h-14 hover:opacity-70 flex justify-center items-center",

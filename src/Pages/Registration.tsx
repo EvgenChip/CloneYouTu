@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-hot-toast";
+import { useState } from "react";
 
 import { registrationValidation } from "../utils/registration";
 import { Button } from "../components/button/Button";
@@ -17,9 +18,9 @@ export interface RegistrationForm {
 }
 
 export const Registration = () => {
+    const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const loading = false;
   const {
     register,
     handleSubmit,
@@ -27,28 +28,12 @@ export const Registration = () => {
   } = useForm({
     resolver: yupResolver(registrationValidation),
   });
+
   const dispatch = useAppDispatch();
-  //   const registrationUser = (data: RegistrationForm) => {
-  //     const auth = getAuth();
-  //     console.log(auth);
-  //     createUserWithEmailAndPassword(auth, data.email, data.password)
-  //       .then(({ user }) => {
-  //         console.log("user", user);
-  //         dispatch(
-  //           setUser({
-  //             email: user.email,
-  //             id: user.uid,
-  //             // @ts-ignore
-  //             token: user.accessToken,
-  //           })
-  //         );
-  //         navigate("/");
-  //       })
-  //       .catch(console.error);
-  //   };
 
   const registrationUser = async (data: RegistrationForm) => {
     try {
+      setLoading(true);
       const user = await dispatch(registrationAction(data));
 
       if (user.type !== "auth/registration/rejected") {
@@ -57,6 +42,8 @@ export const Registration = () => {
     } catch (err) {
       const typedError = err as Error;
       toast.error(typedError.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -107,7 +94,7 @@ export const Registration = () => {
       </p>
 
       <div className="mt-5">
-        <Button disabled={loading} className="w-full">
+        <Button disabled={loading} type="submit" className="w-full">
           {loading ? "загрузка..." : "Зарегистрироваться"}
         </Button>
       </div>

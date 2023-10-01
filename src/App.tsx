@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 
 import "./App.css";
 import { Home } from "./Pages/Home";
@@ -15,43 +15,40 @@ import { AuthHoc } from "./components/authHoc/AuthHoc";
 
 function App() {
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     dispatch(authCheckAction());
   }, []);
+
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/search" element={<SearchPage />} />
-        <Route path="/watch/:id" element={<WatchPage />} />
-        <Route
-          path="/login"
-          element={
-            <AuthHoc forAuth={false}>
-              <Login />
-            </AuthHoc>
-          }
-        />
-        <Route path="/registration" element={<Registration />} />
-        <Route
-          path="/favorites"
-          element={
-            <AuthHoc forAuth={true}>
-              <Favorites />
-            </AuthHoc>
-          }
-        />
-        <Route
-          path="/history"
-          element={
-            <AuthHoc forAuth={true}>
-              <HistoryPage />
-            </AuthHoc>
-          }
-        />
-      </Routes>
-    </BrowserRouter>
-    /* <Home /> */
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/search" element={<SearchPage />} />
+          <Route path="/watch/:id" element={<WatchPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/registration" element={<Registration />} />
+          <Route
+            path="/favorites"
+            element={
+              <AuthHoc>
+                <Favorites />
+              </AuthHoc>
+            }
+          />
+          <Route
+            path="/history"
+            element={
+              <AuthHoc>
+                <HistoryPage />
+              </AuthHoc>
+            }
+          />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 

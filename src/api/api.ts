@@ -1,22 +1,72 @@
-import { useEffect, useMemo, useState } from "react";
-import { parseDataVideoDetais } from "./../store/reducers/getVideoDetails";
 import { YOUTUBE_API_URL } from "../utils/constants";
 
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { toVideoDetails } from "./tronsformResponse";
-import { useAppSelector } from "../store/hooks";
-import { HomePageVideos } from "../Types";
-import { parseData } from "../utils/parseData";
-// ${YOUTUBE_API_URL}/channels?part=snippet,contentDetails&id=${channelIds.join(
-//     ","
-//   )}&key=${API_KEY}`
-// );
-
-// `/videos?key=${API_KEY}&part=snippet,statistics&type=video&id=${id}`),
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
-export const youtubeApi = createApi({
+export interface YouTubeVideoItem {
+  kind: string;
+  etag: string;
+  id: string;
+  snippet: Snippet;
+  contentDetails: ContentDetails;
+}
+
+export interface ContentDetails {
+  duration: string;
+  dimension: string;
+  definition: string;
+  caption: string;
+  licensedContent: boolean;
+  contentRating: ContentRating;
+  projection: string;
+}
+
+export interface ContentRating {}
+
+export interface Snippet {
+  publishedAt: Date;
+  channelId: string;
+  title: string;
+  description: string;
+  thumbnails: Thumbnails;
+  channelTitle: string;
+  tags: string[];
+  categoryId: string;
+  liveBroadcastContent: string;
+  localized: Localized;
+  defaultAudioLanguage: string;
+}
+
+export interface Localized {
+  title: string;
+  description: string;
+}
+
+export interface Thumbnails {
+  default: ThumbnailsDefault;
+  medium: ThumbnailsDefault;
+  high: ThumbnailsDefault;
+  standard: ThumbnailsDefault;
+}
+
+export interface ThumbnailsDefault {
+  url: string;
+  width: number;
+  height: number;
+}
+
+export interface YouTubeVideos {
+  etag: string;
+  kind: string;
+  items: YouTubeVideoItem[];
+  pageInfo: {
+    resultsPerPage: number;
+    totalResults: number;
+  };
+}
+
+const youtubeApi = createApi({
   reducerPath: "youtube/api",
   baseQuery: fetchBaseQuery({
     baseUrl: YOUTUBE_API_URL,
@@ -32,7 +82,7 @@ export const youtubeApi = createApi({
           id: id,
         },
       }),
-      transformResponse: (response: any) => response.items[0],
+      transformResponse: (response: YouTubeVideos) => response.items[0],
     }),
     getChannelDetails: builder.query({
       query: (el) => ({
@@ -43,7 +93,14 @@ export const youtubeApi = createApi({
           key: API_KEY,
         },
       }),
-      transformResponse: (response: any) => response.items?.[0],
+      transformResponse: (response: {
+        etag: string;
+        kind: string;
+        pageInfo: {
+          totalResults: number;
+          resultsPerPage: number;
+        };
+      }) => response.items?.[0],
     }),
     getChannelsData: builder.query({
       query: (channelIds) => ({
@@ -54,7 +111,6 @@ export const youtubeApi = createApi({
           key: API_KEY,
         },
       }),
-      //   transformResponse: (response: any) => response.items?.[0],
     }),
     getContentDetails: builder.query({
       query: (videoIds) => ({
@@ -65,35 +121,43 @@ export const youtubeApi = createApi({
           key: API_KEY,
         },
       }),
-      //   transformResponse: (response: any) => response.items?.[0],
     }),
-    // `${YOUTUBE_API_URL}/search?q=${searchTerm}&key=${API_KEY}&part=snippet&type=video&${pageTypes[pageType]}`
     getSearchVideos: builder.query({
       query: ({ pageToken, searchTerm }) => {
         const req: any = {
           url: "/search",
           params: {
-            q: searchTerm,
             key: API_KEY,
             part: "snippet",
             type: "video",
-            ...(pageToken ? { pageToken } : {}),
+            maxResults: 20,
           },
         };
 
+        if (searchTerm) {
+          req.params.q = searchTerm;
+        }
+
+        if (pageToken) {
+          req.params.pageToken = pageToken;
+        }
+
         return req;
       },
-      //   transformResponse: (response) => response,
+      serializeQueryArgs: (params) => {
+        const { queryArgs, endpointName } = params;
+        return `${endpointName}/${queryArgs.searchTerm}`;
+      },
+      //   merge: (currentCache, newItems) => {
+      //     currentCache.items.push(...newItems.items);
+      //   },
+      //   forceRefetch({ currentArg, previousArg }) {
+      //     console.log({ currentArg, previousArg });
+      //     return currentArg !== previousArg;
+      //   },
     }),
   }),
 });
-// `${YOUTUBE_API_URL}/channels?part=snippet,statistics&id=${item.snippet.channelId}&key=${API_KEY}`
-
-// if (isNext) {
-//   req.pageToken = "sdfgdfsgsfg";
-// }
-
-// return req;
 
 export const {
   useGetVideoDetailsQuery,
@@ -101,87 +165,7 @@ export const {
   useGetSearchVideosQuery,
   useGetChannelsDataQuery,
   useGetContentDetailsQuery,
+  middleware,
+  reducer,
+  reducerPath,
 } = youtubeApi;
-
-export const useAwesomeVideo = (id: string) => {
-  const { data: item } = useGetVideoDetailsQuery(id);
-
-  console.log("ITEM", item);
-  const channelId = item?.snippet?.channelId;
-  const { data: details } = useGetChannelDetailsQuery(channelId, {
-    skip: !channelId,
-  });
-  console.log("Details", details);
-  const res = useMemo(() => {
-    if (details && item) {
-      return parseDataVideoDetais(item, details);
-    }
-
-    return null;
-  }, [details, item]);
-
-  return res;
-};
-
-export const useAwesomeSearchVideo = (pageToken: any) => {
-  const searchTerm = useAppSelector((state) => state.mainApp.searchTerm);
-  const requestParams = useMemo(() => {
-    return { pageToken, searchTerm };
-  }, [pageToken, searchTerm]);
-
-  const searchRes: any = useGetSearchVideosQuery(requestParams, {
-    skip: !searchTerm,
-    refetchOnMountOrArgChange: true,
-  });
-
-  const nextPageToken = searchRes.data?.nextPageToken;
-  const items = searchRes.data?.items;
-
-  const videoIds: string[] = [];
-  const channelIds: string[] = [];
-  items?.forEach(
-    (item: { snippet: { channelId: string }; id: { videoId: string } }) => {
-      channelIds.push(item.snippet.channelId);
-      videoIds.push(item.id.videoId);
-    }
-  );
-
-  console.log("videoIds", videoIds);
-
-  const chanelsDataRes = useGetChannelsDataQuery(channelIds, {
-    skip: !channelIds,
-  });
-
-  const chanelsData = chanelsDataRes.data?.items;
-
-  console.log("CHANELSDATARES", chanelsDataRes);
-
-  const contentDetails = useGetContentDetailsQuery(videoIds, {
-    skip: !videoIds,
-  });
-  const videoData = contentDetails.data?.items;
-
-  console.log("CONTENTDETAILS", videoData);
-
-  const transformSearchRes = useMemo(() => {
-    if (items && chanelsData && videoIds && channelIds && videoData) {
-      const data = parseData(
-        items,
-        chanelsData,
-        videoIds,
-        channelIds,
-        videoData
-      );
-
-      return { data, nextPageToken };
-    }
-
-    return { nextPageToken, data: [] };
-  }, [items, chanelsData, videoData, nextPageToken, videoIds, channelIds]);
-
-  return transformSearchRes;
-};
-
-// const channelImage = data.items[0].snippet.thumbnails.default.url;
-//   const subscriberCount = data.items[0].statistics.subscriberCount;
-// `${YOUTUBE_API_URL}/channels?part=snippet,statistics&id=${item.snippet.channelId}&key=${API_KEY}`

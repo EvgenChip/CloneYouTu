@@ -23,6 +23,7 @@ export const Search = () => {
 
   const handleSearch = () => {
     dispatch(changeSearchTerm(searchStr));
+    dispatch(addToHistory(searchStr));
 
     if (location.pathname !== "/search") {
       navigate("/search");
@@ -33,6 +34,7 @@ export const Search = () => {
     if (!searchTerm && location.pathname === "/search") {
       navigate("/");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -53,7 +55,6 @@ export const Search = () => {
         <IconButton
           onClick={() => {
             handleSearch();
-            dispatch(addToHistory(searchTerm));
           }}
           type="button"
           sx={{ backgroundColor: "#eee", borderRadius: 0 }}

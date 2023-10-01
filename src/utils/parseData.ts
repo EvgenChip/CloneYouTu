@@ -1,17 +1,7 @@
-import axios from "axios";
-import { convertRawViews, parseVideoDuration, timesVideo } from "./index";
-import { YOUTUBE_API_URL } from "./constants";
+import { parseVideoDuration, timesVideo } from "./index";
 import { HomePageVideos } from "../Types";
 
-
-
-export const parseData = (
-  items: any[],
-  channelsData: any[],
-  videoIds: string[],
-  channelIds: string[],
-  videosData: any[]
-) => {
+export const parseData = (items: any[], channelsData: any[], videosData: any[]) => {
   try {
     const channelsMap: Record<string, string> = {};
 
@@ -49,13 +39,13 @@ export const parseData = (
             description: item.snippet.description,
             thumbnail: item.snippet.thumbnails.medium.url,
             link: `https://www.youtube.com/watch?v=${item.id.videoId}`,
-            duration: parseVideoDuration(
-              videosData[index].contentDetails.duration
-            ),
+            duration:
+              videosData[index] &&
+              parseVideoDuration(videosData[index].contentDetails.duration),
             videoAge: timesVideo(new Date(item.snippet.publishedAt)),
             channelInfo: {
               id: item.snippet.channelId,
-              image: channelImage,
+              image: channelImage || "",
               name: item.snippet.channelTitle,
             },
           });
@@ -67,6 +57,3 @@ export const parseData = (
     console.log(err);
   }
 };
-
-
-

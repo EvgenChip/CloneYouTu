@@ -1,17 +1,10 @@
-import {
-  PayloadAction,
-  createSlice,
-  getDefaultMiddleware,
-} from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { InitialState } from "./../Types";
 import { configureStore } from "@reduxjs/toolkit";
-import { getHomePageVideo } from "./reducers/getHomePageVideo";
-import { getSearchPageVideos } from "./reducers/getSearchPageVideo";
-import { Favorite } from "@mui/icons-material";
-import { youtubeApi } from "../api/api";
 import { AuthSlice } from "./auth/authSlice";
 import { FavoritesSlice } from "./favorites/favoritesSlice";
 import { HistorySlice } from "./history/historySlice";
+import { middleware, reducer, reducerPath } from "../api/api";
 
 const initialState: InitialState = {
   videos: [],
@@ -30,6 +23,9 @@ const MainAppSlice = createSlice({
       state.videos = [];
       state.nextPageToken = null;
     },
+    setNextPageToken: (state, action: PayloadAction<string>) => {
+      state.nextPageToken = action.payload;
+    },
     changeSearchTerm: (state, action: PayloadAction<string>) => {
       state.searchTerm = action.payload;
     },
@@ -37,32 +33,26 @@ const MainAppSlice = createSlice({
       state.searchTerm = "";
     },
   },
-  extraReducers: (builder) => {
-    builder.addCase(getHomePageVideo.fulfilled, (state, action) => {
-      state.videos = action.payload.parsedData;
-      state.nextPageToken = action.payload.nextPageToken;
-    });
-    builder.addCase(getSearchPageVideos.fulfilled, (state, action) => {
-      state.videos = action.payload.parsedData;
-      state.nextPageToken = action.payload.nextPageToken;
-    });
-  },
 });
 
 export const store = configureStore({
   reducer: {
     mainApp: MainAppSlice.reducer,
-    [youtubeApi.reducerPath]: youtubeApi.reducer,
+    [reducerPath]: reducer,
     auth: AuthSlice.reducer,
     favorites: FavoritesSlice.reducer,
     history: HistorySlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(youtubeApi.middleware),
+    getDefaultMiddleware().concat(middleware),
 });
 
-export const { clearVideos, changeSearchTerm, clearSearchTerm } =
-  MainAppSlice.actions;
+export const {
+  clearVideos,
+  changeSearchTerm,
+  clearSearchTerm,
+  setNextPageToken,
+} = MainAppSlice.actions;
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

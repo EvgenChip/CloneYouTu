@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 import { useAppDispatch, useAppSelector } from "../store/hooks";
@@ -8,45 +8,30 @@ import { MdOutlinePlaylistAdd } from "react-icons/md";
 import { FaShare } from "react-icons/fa";
 import { BsThreeDots } from "react-icons/bs";
 import { NavMenu } from "../components/navigation/NavMenu";
-import { useAwesomeVideo } from "../api/api";
-import { GetVideoDetail } from "../utils/parseDataVideoDetails";
+import { useAwesomeVideo } from "../api/hooks";
 import { useAuth } from "../store/auth/useAuth";
 import classNames from "classnames";
-import {
-  addToFavorites,
-  removeFromFavorites,
-  toggleFavorites,
-} from "../store/favorites/actions/favorite.actions";
-import { database } from "../firebase.config";
+import { toggleFavorites } from "../store/favorites/actions/favorite.actions";
 import { SideList } from "../components/sideList/SideList";
-import { Button } from "../components/button/Button";
 
 export const WatchPage = () => {
   const { id } = useParams();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  //   const currentPlaying = useAppSelector(
-  //     (state) => state.mainApp.currentPlaying
-  //   );
-  console.log(id);
+
   const favoriteFlag = useAppSelector((state) =>
     state.favorites.favorites.map((el) => el.id).includes(id)
   );
 
-  const [favoriteStateFlag, setFavoriteStateFlag] =
-    useState<boolean>(favoriteFlag);
   const [showMoreStatus, setShowMoreStatus] = useState<boolean>(false);
 
-  console.log(favoriteFlag);
-
-  const { isAuth, uid, email } = useAuth();
+  const { isAuth } = useAuth();
 
   const favoriteButtonTitle = favoriteFlag
     ? "Убрать из избранного"
     : "Добавить в избранное";
 
   const currentPlaying = useAwesomeVideo(id);
-  console.log("REEES", currentPlaying);
 
   const favoritesInfo = currentPlaying
     ? {
@@ -56,19 +41,8 @@ export const WatchPage = () => {
       }
     : {};
 
-  //   const testData = useAppSelector((state) =>
-  //     state.mainApp.currentPlaying
-  //       ? {
-  //           id: state.mainApp.currentPlaying.videoId,
-  //           title: state.mainApp.currentPlaying.title,
-  //           description: state.mainApp.currentPlaying.description,
-  //         }
-  //       : {}
-  //   );
-
   useEffect(() => {
     if (id) {
-      //   dispatch(getVideoDetails(id));
       setShowMoreStatus(false);
     } else {
       navigate("/");
@@ -78,7 +52,6 @@ export const WatchPage = () => {
   const handleFavoritesClick = () => {
     if (isAuth) {
       dispatch(toggleFavorites(favoritesInfo));
-      setFavoriteStateFlag(favoriteFlag);
     } else {
       navigate("/");
     }

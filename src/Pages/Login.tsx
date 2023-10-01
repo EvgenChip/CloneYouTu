@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-hot-toast";
+import { useState } from "react";
 
 import { loginValidation } from "../utils/loginValid";
 import { InputField } from "../components/input/Input";
@@ -19,7 +20,8 @@ export interface LoginForm {
 export const Login = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const loading = false;
+  const [loading, setLoading] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -28,25 +30,9 @@ export const Login = () => {
     resolver: yupResolver(loginValidation),
   });
 
-  //   const loginUser = (data: LoginForm) => {
-  //     const auth = getAuth();
-  //     signInWithEmailAndPassword(auth, data.email, data.password)
-  //       .then(({ user }) => {
-  //         console.log("user", user);
-  //         dispatch(
-  //           setUser({
-  //             email: user.email,
-  //             id: user.uid,
-  //             // @ts-ignore
-  //             token: user.accessToken,
-  //           })
-  //         );
-  //         navigate("/");
-  //       })
-  //       .catch ((err) => {const typedError = err as Error}; )
-
   const loginUser = async (data: LoginForm) => {
     try {
+      setLoading(true);
       const user = await dispatch(loginAction(data));
 
       if (user.type !== "auth/login/rejected") {
@@ -57,6 +43,8 @@ export const Login = () => {
     } catch (err) {
       const typedError = err as Error;
       toast.error(typedError.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -96,7 +84,7 @@ export const Login = () => {
       </p>
 
       <div className="mt-5">
-        <Button disabled={loading} className="w-full">
+        <Button disabled={loading} type="submit" className="w-full">
           {loading ? "загрузка..." : "Войти"}
         </Button>
       </div>

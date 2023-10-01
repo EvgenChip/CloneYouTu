@@ -13,6 +13,7 @@ export const HistoryPage = () => {
   const { isAuth } = useAuth();
   const history = useAppSelector((state) => state.history.history);
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     dispatch(updateStateHistory());
   }, [isAuth]);
@@ -30,7 +31,7 @@ export const HistoryPage = () => {
           {history.length ? (
             <ul className="w-full">
               {history.map((el) => (
-                <HistoryContent link={el} />
+                <HistoryContent key={el} link={el} />
               ))}
             </ul>
           ) : (
